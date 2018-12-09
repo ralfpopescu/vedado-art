@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Art from './Art'
+import ArtController from './ArtController'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -13,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <Art />
+        <ArtController />
       </Container>
     )
   }
