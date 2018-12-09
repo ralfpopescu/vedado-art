@@ -21,11 +21,11 @@ const Container = styled.div`
   width: 500px;
 `
 
-const generateColors = (number) => {
+const generateColors = (number, hue) => {
   return randomColor({
     count: number,
     luminosity: 'random',
-    hue: 'purple'
+    hue: hue
 });
 }
 
@@ -47,10 +47,10 @@ const TrackNameContainer = styled.div`
   font-family: "Times New Roman", Times, serif;
 `
 
-const Art = ({ logoTop, logoLeft, trackNameTop, trackNameLeft, trackName }) => (
+const Art = ({ logoTop, logoLeft, trackNameTop, trackNameLeft, trackName, hue }) => (
   <Container>
     <StripeContainer>
-      {generateColors(15).map(color => (
+      {generateColors(15, hue).map(color => (
         <Stripe color={color} width={Math.random() * 100} />
       ))}
       <LogoContainer top={logoTop} left={logoLeft}>

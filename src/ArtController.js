@@ -25,12 +25,17 @@ const LayoutColumn = styled.div`
 class ArtController extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { logoTop: 0, logoLeft: 0, trackNameTop: 0, trackNameLeft: 0, value: '' }
-    this.handleChange = this.handleChange.bind(this)
+    this.state = { logoTop: 0, logoLeft: 0, trackNameTop: 0, trackNameLeft: 0, trackName: '', hue: 'purple' }
+    this.handleTrackNameChange = this.handleTrackNameChange.bind(this)
+    this.handleHueChange = this.handleHueChange.bind(this)
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleTrackNameChange(event) {
+    this.setState({trackName: event.target.value});
+  }
+
+  handleHueChange(event) {
+    this.setState({hue: event.target.value});
   }
 
   ButtonGroup = ({ fieldTop, fieldLeft }) => (
@@ -57,16 +62,19 @@ class ArtController extends React.Component {
   )
 
   render() {
-    const { logoTop, logoLeft, trackNameLeft, trackNameTop, value } = this.state
+    const { logoTop, logoLeft, trackNameLeft, trackNameTop, trackName, hue } = this.state
     const { ButtonGroup } = this
     return (
       <Container>
-        <Art logoTop={logoTop} logoLeft={logoLeft} trackNameTop={trackNameTop} trackNameLeft={trackNameLeft} trackName={value}/>
-        Logo
+        <Art logoTop={logoTop} logoLeft={logoLeft} trackNameTop={trackNameTop} trackNameLeft={trackNameLeft} trackName={trackName} hue={hue}/>
+        Logo Position
         <ButtonGroup fieldTop="logoTop" fieldLeft="logoLeft" />
-        Track Name
+        Track Name Position
         <ButtonGroup fieldTop="trackNameTop" fieldLeft="trackNameLeft" />
-        <input type="text" value={this.state.value} onChange={this.handleChange} />
+        Track Name
+        <input type="text" value={this.state.trackName} onChange={this.handleTrackNameChange} />
+        Hue
+        <input type="text" value={this.state.hue} onChange={this.handleHueChange} />
       </Container>
     )
   }
