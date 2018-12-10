@@ -1,24 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import randomColor from 'randomcolor'
 
 const Stripe = styled.div`
   height: 100%;
   width: ${props => props.width}px;
   background-color: ${props => props.color};
   display: flex;
+  flex-grow: 1;
 `
 
 const StripeContainer = styled.div`
   height: 500px;
   width: 500px;
   display: flex;
-`
-
-const Container = styled.div`
-  position: relative;
-  height: 500px;
-  width: 500px;
+  overflow: hidden;
 `
 
 const Dot = styled.div`
@@ -31,14 +26,6 @@ const Dot = styled.div`
   display: inline-block;
   position: absolute;
 `
-
-const generateColors = (number, hue) => {
-  return randomColor({
-    count: number,
-    luminosity: 'random',
-    hue: hue
-});
-}
 
 const LogoContainer = styled.div`
   position: absolute;
@@ -58,13 +45,12 @@ const TrackNameContainer = styled.div`
   font-family: "Times New Roman", Times, serif;
 `
 
-const Art = ({ logoTop, logoLeft, trackNameTop, trackNameLeft, trackName, hue }) => (
-  <Container>
+const Art = ({ logoTop, logoLeft, trackNameTop, trackNameLeft, trackName, hue, stripeColors, dotColors }) => (
     <StripeContainer>
-      {generateColors(15, hue).map(color => (
+      {stripeColors.map(color => (
         <Stripe color={color} width={Math.random() * 100} />
       ))}
-      {generateColors(15, hue).map(color => (
+      {dotColors.map(color => (
         <Dot color={color} size={Math.random() * 25} top={Math.random() * 500} left={Math.random() * 500} />
       ))}
       <LogoContainer top={logoTop} left={logoLeft}>
@@ -74,7 +60,6 @@ const Art = ({ logoTop, logoLeft, trackNameTop, trackNameLeft, trackName, hue })
         {trackName}
       </TrackNameContainer>
     </StripeContainer>
-  </Container>
 )
 
 export default Art
