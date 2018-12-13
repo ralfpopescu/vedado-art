@@ -1,64 +1,82 @@
-import React from 'react'
-import styled from 'styled-components'
-import randomColor from 'randomcolor'
+import React from "react";
+import styled from "styled-components";
 
 const Stripe = styled.div`
   height: 100%;
   width: ${props => props.width}px;
   background-color: ${props => props.color};
   display: flex;
-`
+  flex-grow: 1;
+`;
 
 const StripeContainer = styled.div`
-  height: 500px;
-  width: 500px;
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
   display: flex;
-`
+  overflow: auto;
+  flex-grow: 1;
+`;
 
-const Container = styled.div`
-  position: relative;
-  height: 500px;
-  width: 500px;
-`
-
-const generateColors = (number) => {
-  return randomColor({
-    count: number,
-    luminosity: 'random',
-    hue: 'random'
-});
-}
+const Dot = styled.div`
+  height: ${props => props.size}px;
+  width: ${props => props.size}px;
+  background-color: ${props => props.color};
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+`;
 
 const LogoContainer = styled.div`
   position: absolute;
-  top: 50%;
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
   font-size: 100px;
   color: white;
   font-family: "Times New Roman", Times, serif;
-`
+`;
 
 const TrackNameContainer = styled.div`
   position: absolute;
-  top: 50%;
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
   font-size: 30px;
   color: white;
   font-family: "Times New Roman", Times, serif;
-`
+`;
 
-const Art = () => (
-  <Container>
-    <StripeContainer>
-      {generateColors(15).map(color => (
-        <Stripe color={color} width={Math.random() * 100} />
-      ))}
-      <LogoContainer>
-        VEDADO
-      </LogoContainer>
-      <TrackNameContainer>
-        middle of the night
-      </TrackNameContainer>
-    </StripeContainer>
-  </Container>
-)
+const Art = ({
+  logoTop,
+  logoLeft,
+  trackNameTop,
+  trackNameLeft,
+  trackName,
+  artWidth,
+  artHeight,
+  hue,
+  stripeColors,
+  dotColors
+}) => (
+  <StripeContainer width={artWidth} height={artHeight}>
+    {stripeColors.map(color => (
+      <Stripe color={color} width={Math.random() * 100} />
+    ))}
+    {dotColors.map(color => (
+      <Dot
+        color={color}
+        size={Math.random() * 25}
+        top={Math.random() * artHeight}
+        left={Math.random() * artWidth}
+      />
+    ))}
+    <LogoContainer top={logoTop} left={logoLeft}>
+      VEDADO
+    </LogoContainer>
+    <TrackNameContainer top={trackNameTop} left={trackNameLeft}>
+      {trackName}
+    </TrackNameContainer>
+  </StripeContainer>
+);
 
-export default Art
+export default Art;
