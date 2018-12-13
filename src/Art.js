@@ -34,7 +34,8 @@ const LogoContainer = styled.div`
   left: ${props => props.left}px;
   font-size: 100px;
   color: white;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Helvetica";
+  letter-spacing: -12px;
 `;
 
 const TrackNameContainer = styled.div`
@@ -43,7 +44,7 @@ const TrackNameContainer = styled.div`
   left: ${props => props.left}px;
   font-size: 30px;
   color: white;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Helvetica";
 `;
 
 const Art = ({
@@ -71,7 +72,7 @@ const Art = ({
       />
     ))}
     <LogoContainer top={logoTop} left={logoLeft}>
-      VEDADO
+      vedado
     </LogoContainer>
     <TrackNameContainer top={trackNameTop} left={trackNameLeft}>
       {trackName}
