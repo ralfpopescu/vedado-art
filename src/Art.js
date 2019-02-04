@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 
 const Stripe = styled.div`
@@ -10,6 +10,7 @@ const Stripe = styled.div`
 `;
 
 const StripeContainer = styled.div`
+  position: relative;
   height: ${props => props.height}px;
   width: ${props => props.width}px;
   display: flex;
@@ -46,6 +47,15 @@ const TrackNameContainer = styled.div`
   font-family: "Times New Roman", Times, serif;
 `;
 
+const Texture = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  ${props => props.texture};
+`;
+
 const Art = ({
   logoTop,
   logoLeft,
@@ -56,27 +66,38 @@ const Art = ({
   artHeight,
   hue,
   stripeColors,
-  dotColors
-}) => (
-  <StripeContainer width={artWidth} height={artHeight}>
-    {stripeColors.map(color => (
-      <Stripe color={color} width={Math.random() * 100} />
-    ))}
-    {dotColors.map(color => (
-      <Dot
-        color={color}
-        size={Math.random() * 25}
-        top={Math.random() * artHeight}
-        left={Math.random() * artWidth}
-      />
-    ))}
-    <LogoContainer top={logoTop} left={logoLeft}>
-      VEDADO
-    </LogoContainer>
-    <TrackNameContainer top={trackNameTop} left={trackNameLeft}>
-      {trackName}
-    </TrackNameContainer>
-  </StripeContainer>
-);
+  dotColors,
+  texture,
+  id,
+  forwardedRef
+}) => {
+  return (
+    <StripeContainer width={artWidth} height={artHeight} ref={forwardedRef}>
+      {stripeColors.map(color => (
+        <Stripe color={color} width={Math.random() * 100} />
+      ))}
+      {dotColors.map(color => (
+        <Dot
+          color={color}
+          size={Math.random() * 25}
+          top={Math.random() * artHeight}
+          left={Math.random() * artWidth}
+        />
+      ))}
+      {console.log(texture)}
+      <Texture texture={texture.value} />
+      <LogoContainer top={logoTop} left={logoLeft}>
+        VEDADO
+      </LogoContainer>
+      <TrackNameContainer top={trackNameTop} left={trackNameLeft}>
+        {trackName}
+      </TrackNameContainer>
+    </StripeContainer>
+  );
+};
 
-export default Art;
+const ArtWithForwardedRef = React.forwardRef((props, ref) => (
+  <Art {...props} forwardedRef={ref} />
+));
+
+export default ArtWithForwardedRef;

@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Art from "./Art";
+import { textures } from "./Textures";
 import randomColor from "randomcolor";
+import domtoimage from "dom-to-image";
+import Dropdown from "react-dropdown";
 
 const DirectionButton = styled.button`
   color: red;
@@ -12,6 +15,13 @@ const DirectionButton = styled.button`
 const RandomizeButton = styled.button`
   color: red;
   background-color: blue;
+  width: 100px;
+  height: 50px;
+`;
+
+const DownloadButton = styled.button`
+  color: yellow;
+  background-color: orange;
   width: 100px;
   height: 50px;
 `;
@@ -47,6 +57,7 @@ const generateColors = (number, hue) => {
 class ArtController extends React.Component {
   constructor(props) {
     super(props);
+    this.artRef = React.createRef();
     this.state = {
       logoTop: 0,
       logoLeft: 0,
@@ -59,7 +70,8 @@ class ArtController extends React.Component {
       numberOfStripes: 15,
       numberOfDots: 15,
       stripeColors: generateColors(15, "random"),
-      dotColors: generateColors(15, "random")
+      dotColors: generateColors(15, "random"),
+      texture: "none"
     };
     this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
     this.handleHueChange = this.handleHueChange.bind(this);
@@ -68,6 +80,8 @@ class ArtController extends React.Component {
     this.handleStripeNumberChange = this.handleStripeNumberChange.bind(this);
     this.handleDotNumberChange = this.handleDotNumberChange.bind(this);
     this.randomizeColors = this.randomizeColors.bind(this);
+    this.handleTextureChange = this.handleTextureChange.bind(this);
+    this.download = this.download.bind(this);
   }
 
   handleTrackNameChange(event) {
@@ -109,6 +123,10 @@ class ArtController extends React.Component {
     });
   }
 
+  handleTextureChange(value) {
+    this.setState({ texture: value });
+  }
+
   randomizeColors() {
     this.setState({
       stripeColors: generateColors(this.state.numberOfStripes, this.state.hue)
@@ -116,6 +134,21 @@ class ArtController extends React.Component {
     this.setState({
       dotColors: generateColors(this.state.numberOfDots, this.state.hue)
     });
+  }
+
+  download() {
+    console.log(this.artRef.current);
+    domtoimage
+      .toPng(this.artRef.current)
+      .then(function(dataUrl) {
+        var link = document.createElement("a");
+        link.download = "my-image-name.jpeg";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function(error) {
+        console.error("oops, something went wrong!", error);
+      });
   }
 
   ButtonGroup = ({ fieldTop, fieldLeft, amount }) => (
@@ -172,7 +205,8 @@ class ArtController extends React.Component {
       artWidth,
       artHeight,
       stripeColors,
-      dotColors
+      dotColors,
+      texture
     } = this.state;
     const { ButtonGroup } = this;
     return (
@@ -188,6 +222,8 @@ class ArtController extends React.Component {
           hue={hue}
           stripeColors={stripeColors}
           dotColors={dotColors}
+          texture={texture}
+          ref={this.artRef}
         />
         Logo Position top: {logoTop} left: {logoLeft}
         <ButtonGroup fieldTop="logoTop" fieldLeft="logoLeft" amount={10} />
@@ -233,9 +269,16 @@ class ArtController extends React.Component {
           value={this.state.numberOfDots}
           onChange={this.handleDotNumberChange}
         />
+        <Dropdown
+          options={textures}
+          onChange={this.handleTextureChange}
+          value={texture.value}
+          placeholder="Select a texture"
+        />
         <RandomizeButton onClick={this.randomizeColors}>
           RANDOMIZE COLORS
         </RandomizeButton>
+        <DownloadButton onClick={this.download}>Download</DownloadButton>
       </Container>
     );
   }
