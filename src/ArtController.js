@@ -4,7 +4,7 @@ import Art from "./Art";
 import { textures } from "./Textures";
 import randomColor from "randomcolor";
 import domtoimage from "dom-to-image";
-import Dropdown from "react-dropdown";
+import Select from "react-select";
 
 const DirectionButton = styled.button`
   color: red;
@@ -269,7 +269,7 @@ class ArtController extends React.Component {
           value={this.state.numberOfDots}
           onChange={this.handleDotNumberChange}
         />
-        <Dropdown
+        <Select
           options={textures}
           onChange={this.handleTextureChange}
           value={texture.value}
