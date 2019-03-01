@@ -35,7 +35,7 @@ const LogoContainer = styled.div`
   left: ${props => props.left}px;
   font-size: 100px;
   color: white;
-  font-family: "Times New Roman", Times, serif;
+  text-shadow: 10px 30px 20px #000000;
 `;
 
 const TrackNameContainer = styled.div`
@@ -44,7 +44,7 @@ const TrackNameContainer = styled.div`
   left: ${props => props.left}px;
   font-size: 30px;
   color: white;
-  font-family: "Times New Roman", Times, serif;
+  text-shadow: 10px 30px 20px #000000;
 `;
 
 const Texture = styled.div`
@@ -54,6 +54,19 @@ const Texture = styled.div`
   right: 0;
   left: 0;
   ${props => props.texture};
+`;
+
+const Gradient = styled.div`
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.3),
+    rgba(255, 255, 255, 0.3)
+  );
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 `;
 
 const Art = ({
@@ -84,8 +97,8 @@ const Art = ({
           left={Math.random() * artWidth}
         />
       ))}
-      {console.log(texture)}
       <Texture texture={texture.value} />
+      <Gradient />
       <LogoContainer top={logoTop} left={logoLeft}>
         VEDADO
       </LogoContainer>

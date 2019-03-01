@@ -5,11 +5,15 @@ import { textures } from "./Textures";
 import randomColor from "randomcolor";
 import domtoimage from "dom-to-image";
 import Select from "react-select";
+import { ReactComponent as Arrow } from "./icons/play-arrow.svg";
 
-const DirectionButton = styled.button`
-  color: red;
-  width: 100px;
-  height: 50px;
+const DirectionButton = styled.div`
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: #666666;
 `;
 
 const RandomizeButton = styled.button`
@@ -44,6 +48,7 @@ const LayoutColumn = styled.div`
 
 const Input = styled.input`
   margin-bottom: 20px;
+  font-family: Unica One;
 `;
 
 const generateColors = (number, hue) => {
@@ -68,9 +73,9 @@ class ArtController extends React.Component {
       artWidth: 500,
       artHeight: 500,
       numberOfStripes: 15,
-      numberOfDots: 15,
+      numberOfDots: 0,
       stripeColors: generateColors(15, "random"),
-      dotColors: generateColors(15, "random"),
+      dotColors: generateColors(0, "random"),
       texture: "none"
     };
     this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
@@ -153,15 +158,23 @@ class ArtController extends React.Component {
 
   ButtonGroup = ({ fieldTop, fieldLeft, amount }) => (
     <LayoutRow>
-      <DirectionButton
-        onClick={() =>
-          this.setState(prevState => ({
-            [fieldLeft]: prevState[fieldLeft] - amount
-          }))
-        }
-      >
-        left
-      </DirectionButton>
+      <LayoutColumn style={{ justifyContent: "center" }}>
+        <DirectionButton
+          onClick={() =>
+            this.setState(prevState => ({
+              [fieldLeft]: prevState[fieldLeft] - amount
+            }))
+          }
+        >
+          <Arrow
+            style={{
+              width: "25px",
+              height: "25px",
+              transform: "rotate(180deg)"
+            }}
+          />
+        </DirectionButton>
+      </LayoutColumn>
       <LayoutColumn>
         <DirectionButton
           onClick={() =>
@@ -170,7 +183,22 @@ class ArtController extends React.Component {
             }))
           }
         >
-          up
+          <Arrow
+            style={{
+              width: "25px",
+              height: "25px",
+              transform: "rotate(270deg)"
+            }}
+          />
+        </DirectionButton>
+        <DirectionButton onClick={() => console.log("center")}>
+          <div
+            style={{
+              border: "2px solid #666666",
+              height: "10px",
+              width: "10px"
+            }}
+          />
         </DirectionButton>
         <DirectionButton
           onClick={() =>
@@ -179,18 +207,31 @@ class ArtController extends React.Component {
             }))
           }
         >
-          down
+          <Arrow
+            style={{
+              width: "25px",
+              height: "25px",
+              transform: "rotate(90deg)"
+            }}
+          />
         </DirectionButton>
       </LayoutColumn>
-      <DirectionButton
-        onClick={() =>
-          this.setState(prevState => ({
-            [fieldLeft]: prevState[fieldLeft] + amount
-          }))
-        }
-      >
-        right
-      </DirectionButton>
+      <LayoutColumn style={{ justifyContent: "center" }}>
+        <DirectionButton
+          onClick={() =>
+            this.setState(prevState => ({
+              [fieldLeft]: prevState[fieldLeft] + amount
+            }))
+          }
+        >
+          <Arrow
+            style={{
+              width: "25px",
+              height: "25px"
+            }}
+          />
+        </DirectionButton>
+      </LayoutColumn>
     </LayoutRow>
   );
 
