@@ -7,10 +7,14 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const ColorPanel = ({ colors }) => (
+const ColorPanel = ({ stripes }) => (
   <Container>
-    {colors.map(color => (
-      <ColorInput color={color} style={{ marginBottom: "16px" }} />
+    {stripes.map(({ color, width }) => (
+      <ColorInput
+        color={color}
+        width={width}
+        style={{ marginBottom: "16px" }}
+      />
     ))}
   </Container>
 );

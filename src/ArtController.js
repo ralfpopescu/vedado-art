@@ -25,10 +25,12 @@ const DirectionButton = styled.div`
 `;
 
 const RandomizeButton = styled.button`
-  color: red;
-  background-color: blue;
+  color: #666666;
+  background-color: transparent;
   width: 100px;
   height: 50px;
+  border: 2px solid #666666;
+  font-family: Unica One;
 `;
 
 const DownloadContainer = styled.div`
@@ -77,7 +79,10 @@ const generateStripes = (number, hue) => {
     hue: hue
   });
 
-  return colors.map(color => ({ color, width: Math.random() * 100 }));
+  return colors.map(color => ({
+    color,
+    width: Math.round(Math.random() * 100)
+  }));
 };
 
 class ArtController extends React.Component {
@@ -180,7 +185,7 @@ class ArtController extends React.Component {
     this.setState(prevState => ({
       stripes: prevState.stripes.map(stripe => ({
         color: stripe.color,
-        width: Math.random() * 100
+        width: Math.round(Math.random() * 100)
       }))
     }));
   }
@@ -400,13 +405,22 @@ class ArtController extends React.Component {
         <RandomizeButton onClick={this.randomizeTexture}>
           RANDOMIZE TEXTURE
         </RandomizeButton>
+        <RandomizeButton
+          onClick={() => {
+            this.randomizeTexture();
+            this.randomizeWidths();
+            this.randomizeColors();
+          }}
+        >
+          RANDOMIZE
+        </RandomizeButton>
         <DownloadContainer>
           <Download
             onClick={this.download}
             style={{ width: "50px", height: "50px" }}
           />
         </DownloadContainer>
-        <ColorPanel colors={stripeColors} />
+        <ColorPanel stripes={stripes} />
       </Container>
     );
   }
