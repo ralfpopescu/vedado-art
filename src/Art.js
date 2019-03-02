@@ -7,6 +7,7 @@ const Stripe = styled.div`
   background-color: ${props => props.color};
   display: flex;
   flex-grow: 1;
+  transition: all 0.3s ease-in-out;
 `;
 
 const StripeContainer = styled.div`
@@ -36,6 +37,7 @@ const LogoContainer = styled.div`
   font-size: 100px;
   color: white;
   text-shadow: 10px 30px 20px #000000;
+  transition: all 0.3s ease-in-out;
 `;
 
 const TrackNameContainer = styled.div`
