@@ -70,6 +70,16 @@ const generateColors = (number, hue) => {
   });
 };
 
+const generateStripes = (number, hue) => {
+  const colors = randomColor({
+    count: number,
+    luminosity: "random",
+    hue: hue
+  });
+
+  return colors.map(color => ({ color, width: Math.random() * 100 }));
+};
+
 class ArtController extends React.Component {
   constructor(props) {
     super(props);
@@ -89,6 +99,7 @@ class ArtController extends React.Component {
       centerTrackname: false,
       stripeColors: generateColors(15, "random"),
       dotColors: generateColors(0, "random"),
+      stripes: generateStripes(15, "random"),
       texture: "none"
     };
     this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
@@ -100,6 +111,7 @@ class ArtController extends React.Component {
     this.randomizeColors = this.randomizeColors.bind(this);
     this.handleTextureChange = this.handleTextureChange.bind(this);
     this.randomizeTexture = this.randomizeTexture.bind(this);
+    this.randomizeWidths = this.randomizeWidths.bind(this);
     this.download = this.download.bind(this);
   }
 
@@ -153,6 +165,24 @@ class ArtController extends React.Component {
     this.setState({
       dotColors: generateColors(this.state.numberOfDots, this.state.hue)
     });
+    this.setState(prevState => ({
+      stripes: prevState.stripes.map(stripe => ({
+        color: randomColor({
+          luminosity: "random",
+          hue: this.state.hue
+        }),
+        width: stripe.width
+      }))
+    }));
+  }
+
+  randomizeWidths() {
+    this.setState(prevState => ({
+      stripes: prevState.stripes.map(stripe => ({
+        color: stripe.color,
+        width: Math.random() * 100
+      }))
+    }));
   }
 
   randomizeTexture() {
@@ -280,12 +310,14 @@ class ArtController extends React.Component {
       centerLogo,
       centerTrackname,
       stripeColors,
+      stripes,
       dotColors,
       texture
     } = this.state;
     const { ButtonGroup } = this;
     return (
       <Container>
+        {console.log(generateStripes(15, "random"))}
         <Art
           logoTop={logoTop}
           logoLeft={logoLeft}
@@ -300,6 +332,7 @@ class ArtController extends React.Component {
           texture={texture}
           centerLogo={centerLogo}
           centerTrackname={centerTrackname}
+          stripes={stripes}
           ref={this.artRef}
         />
         Logo Position top: {logoTop} left: {logoLeft}
@@ -360,6 +393,9 @@ class ArtController extends React.Component {
         />
         <RandomizeButton onClick={this.randomizeColors}>
           RANDOMIZE COLORS
+        </RandomizeButton>
+        <RandomizeButton onClick={this.randomizeWidths}>
+          RANDOMIZE WIDTHS
         </RandomizeButton>
         <RandomizeButton onClick={this.randomizeTexture}>
           RANDOMIZE TEXTURE

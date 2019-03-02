@@ -28,6 +28,7 @@ const Dot = styled.div`
   border-radius: 50%;
   display: inline-block;
   position: absolute;
+  transition: all 0.3s ease-in-out;
 `;
 
 const LogoContainer = styled.div`
@@ -85,6 +86,7 @@ const Art = ({
   centerTrackname,
   dotColors,
   texture,
+  stripes,
   id,
   forwardedRef
 }) => {
@@ -92,8 +94,8 @@ const Art = ({
   const trackNameRef = useRef(null);
   return (
     <StripeContainer width={artWidth} height={artHeight} ref={forwardedRef}>
-      {stripeColors.map(color => (
-        <Stripe color={color} width={Math.random() * 100} />
+      {stripes.map(({ color, width }) => (
+        <Stripe color={color} width={width} />
       ))}
       {dotColors.map(color => (
         <Dot
