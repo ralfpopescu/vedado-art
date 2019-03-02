@@ -87,6 +87,7 @@ const Art = ({
   forwardedRef
 }) => {
   const logoRef = useRef(null);
+  const trackNameRef = useRef(null);
   return (
     <StripeContainer width={artWidth} height={artHeight} ref={forwardedRef}>
       {stripeColors.map(color => (
@@ -118,7 +119,22 @@ const Art = ({
       >
         VEDADO
       </LogoContainer>
-      <TrackNameContainer top={trackNameTop} left={trackNameLeft}>
+      <TrackNameContainer
+        top={
+          centerTrackname
+            ? artHeight / 2 -
+              trackNameRef.current.getBoundingClientRect().height * 0.75 +
+              60
+            : trackNameTop
+        }
+        left={
+          centerTrackname
+            ? artWidth / 2 -
+              trackNameRef.current.getBoundingClientRect().width / 2
+            : trackNameLeft
+        }
+        ref={trackNameRef}
+      >
         {trackName}
       </TrackNameContainer>
     </StripeContainer>

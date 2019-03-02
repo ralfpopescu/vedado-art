@@ -6,6 +6,7 @@ import randomColor from "randomcolor";
 import domtoimage from "dom-to-image";
 import Select from "react-select";
 import { ReactComponent as Arrow } from "./icons/play-arrow.svg";
+import { ReactComponent as Download } from "./icons/download.svg";
 
 const DirectionButton = styled.div`
   width: 25px;
@@ -29,11 +30,14 @@ const RandomizeButton = styled.button`
   height: 50px;
 `;
 
-const DownloadButton = styled.button`
-  color: yellow;
-  background-color: orange;
-  width: 100px;
-  height: 50px;
+const DownloadContainer = styled.div`
+  opacity: 1;
+  cursor: pointer;
+  width: 50px;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const Container = styled.div`
@@ -359,7 +363,12 @@ class ArtController extends React.Component {
         <RandomizeButton onClick={this.randomizeTexture}>
           RANDOMIZE TEXTURE
         </RandomizeButton>
-        <DownloadButton onClick={this.download}>Download</DownloadButton>
+        <DownloadContainer>
+          <Download
+            onClick={this.download}
+            style={{ width: "50px", height: "50px" }}
+          />
+        </DownloadContainer>
       </Container>
     );
   }
