@@ -5,6 +5,7 @@ import { textures } from "./Textures";
 import randomColor from "randomcolor";
 import domtoimage from "dom-to-image";
 import Select from "react-select";
+import ColorPanel from "./ColorPanel";
 import { ReactComponent as Arrow } from "./icons/play-arrow.svg";
 import { ReactComponent as Download } from "./icons/download.svg";
 
@@ -369,6 +370,7 @@ class ArtController extends React.Component {
             style={{ width: "50px", height: "50px" }}
           />
         </DownloadContainer>
+        <ColorPanel colors={stripeColors} />
       </Container>
     );
   }
