@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 
 const Stripe = styled.div`
-  height: 100%;
   width: ${props => props.width}px;
   background-color: ${props => props.color};
   display: flex;
@@ -17,6 +16,7 @@ const StripeContainer = styled.div`
   display: flex;
   overflow: auto;
   flex-grow: 1;
+  transition: all 0.3s ease-in-out;
 `;
 
 const Dot = styled.div`
@@ -48,6 +48,7 @@ const TrackNameContainer = styled.div`
   font-size: 30px;
   color: white;
   text-shadow: 10px 30px 20px #000000;
+  transition: all 0.3s ease-in-out;
 `;
 
 const Texture = styled.div`
@@ -57,6 +58,7 @@ const Texture = styled.div`
   right: 0;
   left: 0;
   ${props => props.texture};
+  transition: all 0.3s ease-in-out;
 `;
 
 const Gradient = styled.div`

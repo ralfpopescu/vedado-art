@@ -47,7 +47,8 @@ const Container = styled.div`
   position: absolute;
   display: flex;
   flex-grow: 1;
-  flex-direction: column;
+  flex-direction: row;
+  height: 1200px;
 `;
 
 const LayoutRow = styled.div`
@@ -60,8 +61,14 @@ const LayoutColumn = styled.div`
 `;
 
 const Input = styled.input`
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   font-family: Unica One;
+`;
+
+const FieldHeader = styled.div`
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  margin-top: 8px;
 `;
 
 const generateColors = (number, hue) => {
@@ -149,6 +156,9 @@ class ArtController extends React.Component {
     this.setState({ numberOfStripes: event.target.value });
     this.setState({
       stripeColors: generateColors(event.target.value, this.state.hue)
+    });
+    this.setState({
+      stripes: generateStripes(event.target.value, this.state.hue)
     });
   }
 
@@ -259,9 +269,12 @@ class ArtController extends React.Component {
         >
           <div
             style={{
-              border: `2px solid ${this.state[center] ? "red" : "#666666"}`,
+              border: `${this.state[center] ? 3 : 2}px solid ${
+                this.state[center] ? "#bfbfbf" : "#666666"
+              }`,
               height: "10px",
-              width: "10px"
+              width: "10px",
+              borderRadius: "4px"
             }}
           />
         </DirectionButton>
@@ -322,105 +335,141 @@ class ArtController extends React.Component {
     const { ButtonGroup } = this;
     return (
       <Container>
-        {console.log(generateStripes(15, "random"))}
-        <Art
-          logoTop={logoTop}
-          logoLeft={logoLeft}
-          trackNameTop={trackNameTop}
-          trackNameLeft={trackNameLeft}
-          trackName={trackName}
-          artWidth={artWidth}
-          artHeight={artHeight}
-          hue={hue}
-          stripeColors={stripeColors}
-          dotColors={dotColors}
-          texture={texture}
-          centerLogo={centerLogo}
-          centerTrackname={centerTrackname}
-          stripes={stripes}
-          ref={this.artRef}
-        />
-        Logo Position top: {logoTop} left: {logoLeft}
-        <ButtonGroup
-          fieldTop="logoTop"
-          fieldLeft="logoLeft"
-          center="centerLogo"
-          amount={10}
-        />
-        Track Name Position top: {trackNameTop} left: {trackNameLeft}
-        <ButtonGroup
-          fieldTop="trackNameTop"
-          fieldLeft="trackNameLeft"
-          center="centerTrackname"
-          amount={10}
-        />
-        Track Name
-        <Input
-          type="text"
-          value={this.state.trackName}
-          onChange={this.handleTrackNameChange}
-        />
-        Hue
-        <Input
-          type="text"
-          value={this.state.hue}
-          onChange={this.handleHueChange}
-        />
-        Art Width
-        <Input
-          type="text"
-          value={this.state.artWidth}
-          onChange={this.handleWidthChange}
-        />
-        Art Height
-        <Input
-          type="text"
-          value={this.state.artHeight}
-          onChange={this.handleHeightChange}
-        />
-        Number of Stripes
-        <Input
-          type="text"
-          value={this.state.numberOfStripes}
-          onChange={this.handleStripeNumberChange}
-        />
-        Number of Dots
-        <Input
-          type="text"
-          value={this.state.numberOfDots}
-          onChange={this.handleDotNumberChange}
-        />
-        <Select
-          options={textures}
-          onChange={this.handleTextureChange}
-          value={texture.value}
-          placeholder="Select a texture"
-        />
-        <RandomizeButton onClick={this.randomizeColors}>
-          RANDOMIZE COLORS
-        </RandomizeButton>
-        <RandomizeButton onClick={this.randomizeWidths}>
-          RANDOMIZE WIDTHS
-        </RandomizeButton>
-        <RandomizeButton onClick={this.randomizeTexture}>
-          RANDOMIZE TEXTURE
-        </RandomizeButton>
-        <RandomizeButton
-          onClick={() => {
-            this.randomizeTexture();
-            this.randomizeWidths();
-            this.randomizeColors();
+        <LayoutColumn
+          style={{
+            padding: "30px",
+            overflowY: "auto",
+            background: "#e6e6e6",
+            height: "100%"
           }}
         >
-          RANDOMIZE
-        </RandomizeButton>
-        <DownloadContainer>
-          <Download
-            onClick={this.download}
-            style={{ width: "50px", height: "50px" }}
+          <LayoutColumn>
+            <FieldHeader>POSITION</FieldHeader>
+            <LayoutRow>
+              <LayoutColumn
+                style={{ alignItems: "center", marginRight: "16px" }}
+              >
+                Logo
+                <ButtonGroup
+                  fieldTop="logoTop"
+                  fieldLeft="logoLeft"
+                  center="centerLogo"
+                  amount={10}
+                />
+                top: {logoTop} left: {logoLeft}
+              </LayoutColumn>
+              <LayoutColumn>
+                Track Name
+                <ButtonGroup
+                  fieldTop="trackNameTop"
+                  fieldLeft="trackNameLeft"
+                  center="centerTrackname"
+                  amount={10}
+                />
+                top: {trackNameTop} left: {trackNameLeft}
+              </LayoutColumn>
+            </LayoutRow>
+          </LayoutColumn>
+          <FieldHeader>CONTENT</FieldHeader>
+          Track Name
+          <Input
+            type="text"
+            value={this.state.trackName}
+            onChange={this.handleTrackNameChange}
           />
-        </DownloadContainer>
-        <ColorPanel stripes={stripes} />
+          <FieldHeader>ATTRIBUTES</FieldHeader>
+          Art Width
+          <Input
+            type="text"
+            value={this.state.artWidth}
+            onChange={this.handleWidthChange}
+          />
+          Art Height
+          <Input
+            type="text"
+            value={this.state.artHeight}
+            onChange={this.handleHeightChange}
+          />
+          Number of Stripes
+          <Input
+            type="text"
+            value={this.state.numberOfStripes}
+            onChange={this.handleStripeNumberChange}
+          />
+          Number of Dots
+          <Input
+            type="text"
+            value={this.state.numberOfDots}
+            onChange={this.handleDotNumberChange}
+          />
+          <FieldHeader>APPEARANCE</FieldHeader>
+          Hue
+          <Input
+            type="text"
+            value={this.state.hue}
+            onChange={this.handleHueChange}
+          />
+          Texture
+          <Select
+            options={textures}
+            onChange={this.handleTextureChange}
+            value={texture.value}
+            placeholder="Select a texture"
+          />
+          <FieldHeader>RANDOMIZE</FieldHeader>
+          <RandomizeButton onClick={this.randomizeColors}>
+            RANDOMIZE COLORS
+          </RandomizeButton>
+          <RandomizeButton onClick={this.randomizeWidths}>
+            RANDOMIZE WIDTHS
+          </RandomizeButton>
+          <RandomizeButton onClick={this.randomizeTexture}>
+            RANDOMIZE TEXTURE
+          </RandomizeButton>
+          <RandomizeButton
+            onClick={() => {
+              this.randomizeTexture();
+              this.randomizeWidths();
+              this.randomizeColors();
+            }}
+          >
+            RANDOMIZE
+          </RandomizeButton>
+          <DownloadContainer>
+            <Download
+              onClick={this.download}
+              style={{ width: "50px", height: "50px" }}
+            />
+          </DownloadContainer>
+        </LayoutColumn>
+        <div
+          style={{
+            height: "100%",
+            width: this.state.artWidth,
+            padding: "50px"
+          }}
+        >
+          <Art
+            logoTop={logoTop}
+            logoLeft={logoLeft}
+            trackNameTop={trackNameTop}
+            trackNameLeft={trackNameLeft}
+            trackName={trackName}
+            artWidth={artWidth}
+            artHeight={artHeight}
+            hue={hue}
+            stripeColors={stripeColors}
+            dotColors={dotColors}
+            texture={texture}
+            centerLogo={centerLogo}
+            centerTrackname={centerTrackname}
+            stripes={stripes}
+            ref={this.artRef}
+          />
+        </div>
+        <LayoutColumn style={{ padding: "50px" }}>
+          <ColorPanel stripes={stripes} />
+        </LayoutColumn>
       </Container>
     );
   }
