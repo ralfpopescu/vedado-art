@@ -14,6 +14,12 @@ const DirectionButton = styled.div`
   justify-content: center;
   align-items: center;
   fill: #666666;
+  cursor: pointer;
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const RandomizeButton = styled.button`
@@ -69,11 +75,13 @@ class ArtController extends React.Component {
       trackNameTop: 0,
       trackNameLeft: 0,
       trackName: "",
-      hue: "purple",
+      hue: "random",
       artWidth: 500,
       artHeight: 500,
       numberOfStripes: 15,
       numberOfDots: 0,
+      centerLogo: false,
+      centerTrackname: false,
       stripeColors: generateColors(15, "random"),
       dotColors: generateColors(0, "random"),
       texture: "none"
@@ -86,6 +94,7 @@ class ArtController extends React.Component {
     this.handleDotNumberChange = this.handleDotNumberChange.bind(this);
     this.randomizeColors = this.randomizeColors.bind(this);
     this.handleTextureChange = this.handleTextureChange.bind(this);
+    this.randomizeTexture = this.randomizeTexture.bind(this);
     this.download = this.download.bind(this);
   }
 
@@ -141,6 +150,14 @@ class ArtController extends React.Component {
     });
   }
 
+  randomizeTexture() {
+    const randomInteger = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    this.handleTextureChange(textures[randomInteger(1, textures.length)]);
+  }
+
   download() {
     console.log(this.artRef.current);
     domtoimage
@@ -156,13 +173,14 @@ class ArtController extends React.Component {
       });
   }
 
-  ButtonGroup = ({ fieldTop, fieldLeft, amount }) => (
+  ButtonGroup = ({ fieldTop, fieldLeft, center, amount }) => (
     <LayoutRow>
       <LayoutColumn style={{ justifyContent: "center" }}>
         <DirectionButton
           onClick={() =>
             this.setState(prevState => ({
-              [fieldLeft]: prevState[fieldLeft] - amount
+              [fieldLeft]: prevState[fieldLeft] - amount,
+              [center]: false
             }))
           }
         >
@@ -179,7 +197,8 @@ class ArtController extends React.Component {
         <DirectionButton
           onClick={() =>
             this.setState(prevState => ({
-              [fieldTop]: prevState[fieldTop] - amount
+              [fieldTop]: prevState[fieldTop] - amount,
+              [center]: false
             }))
           }
         >
@@ -191,10 +210,16 @@ class ArtController extends React.Component {
             }}
           />
         </DirectionButton>
-        <DirectionButton onClick={() => console.log("center")}>
+        <DirectionButton
+          onClick={() =>
+            this.setState(prevState => ({
+              [center]: !prevState[center]
+            }))
+          }
+        >
           <div
             style={{
-              border: "2px solid #666666",
+              border: `2px solid ${this.state[center] ? "red" : "#666666"}`,
               height: "10px",
               width: "10px"
             }}
@@ -203,7 +228,8 @@ class ArtController extends React.Component {
         <DirectionButton
           onClick={() =>
             this.setState(prevState => ({
-              [fieldTop]: prevState[fieldTop] + amount
+              [fieldTop]: prevState[fieldTop] + amount,
+              [center]: false
             }))
           }
         >
@@ -220,7 +246,8 @@ class ArtController extends React.Component {
         <DirectionButton
           onClick={() =>
             this.setState(prevState => ({
-              [fieldLeft]: prevState[fieldLeft] + amount
+              [fieldLeft]: prevState[fieldLeft] + amount,
+              [center]: false
             }))
           }
         >
@@ -245,6 +272,8 @@ class ArtController extends React.Component {
       hue,
       artWidth,
       artHeight,
+      centerLogo,
+      centerTrackname,
       stripeColors,
       dotColors,
       texture
@@ -264,14 +293,22 @@ class ArtController extends React.Component {
           stripeColors={stripeColors}
           dotColors={dotColors}
           texture={texture}
+          centerLogo={centerLogo}
+          centerTrackname={centerTrackname}
           ref={this.artRef}
         />
         Logo Position top: {logoTop} left: {logoLeft}
-        <ButtonGroup fieldTop="logoTop" fieldLeft="logoLeft" amount={10} />
+        <ButtonGroup
+          fieldTop="logoTop"
+          fieldLeft="logoLeft"
+          center="centerLogo"
+          amount={10}
+        />
         Track Name Position top: {trackNameTop} left: {trackNameLeft}
         <ButtonGroup
           fieldTop="trackNameTop"
           fieldLeft="trackNameLeft"
+          center="centerTrackname"
           amount={10}
         />
         Track Name
@@ -318,6 +355,9 @@ class ArtController extends React.Component {
         />
         <RandomizeButton onClick={this.randomizeColors}>
           RANDOMIZE COLORS
+        </RandomizeButton>
+        <RandomizeButton onClick={this.randomizeTexture}>
+          RANDOMIZE TEXTURE
         </RandomizeButton>
         <DownloadButton onClick={this.download}>Download</DownloadButton>
       </Container>
