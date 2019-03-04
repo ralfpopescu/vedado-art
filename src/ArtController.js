@@ -37,6 +37,7 @@ const DownloadContainer = styled.div`
   opacity: 1;
   cursor: pointer;
   width: 50px;
+  fill: white;
 
   &:hover {
     opacity: 0.7;
@@ -49,6 +50,8 @@ const Container = styled.div`
   flex-grow: 1;
   flex-direction: row;
   height: 1200px;
+  background-color: #1b1b1b;
+  color: white;
 `;
 
 const LayoutRow = styled.div`
@@ -63,13 +66,39 @@ const LayoutColumn = styled.div`
 const Input = styled.input`
   margin-bottom: 16px;
   font-family: Unica One;
+  border-radius: 2px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const FieldHeader = styled.div`
   font-size: 1.5rem;
   margin-bottom: 8px;
   margin-top: 8px;
+  display: flex;
+  flex-direction: row;
 `;
+
+const RandomIconWrapper = styled.div`
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.05s ease-in-out;
+  display: flex;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const RandomizeIcon = ({ onClick }) => (
+  <RandomIconWrapper onClick={onClick}>↻</RandomIconWrapper>
+);
 
 const generateColors = (number, hue) => {
   return randomColor({
@@ -367,15 +396,16 @@ class ArtController extends React.Component {
           style={{
             padding: "30px",
             overflowY: "auto",
-            background: "#f2f2f2",
-            height: "100%"
+            background: "#323232",
+            height: "100%",
+            minWidth: "300px"
           }}
         >
           <LayoutColumn>
             <FieldHeader>POSITION</FieldHeader>
             <LayoutRow style={{ marginBottom: "16px" }}>
               <LayoutColumn
-                style={{ alignItems: "center", marginRight: "16px" }}
+                style={{ alignItems: "center", marginRight: "32px" }}
               >
                 Logo
                 <ButtonGroup
@@ -444,25 +474,28 @@ class ArtController extends React.Component {
             value={texture.value}
             placeholder="Select a texture"
           />
-          <FieldHeader>RANDOMIZE</FieldHeader>
-          <RandomizeButton onClick={this.randomizeColors}>
-            RANDOMIZE COLORS
-          </RandomizeButton>
-          <RandomizeButton onClick={this.randomizeWidths}>
-            RANDOMIZE WIDTHS
-          </RandomizeButton>
-          <RandomizeButton onClick={this.randomizeTexture}>
-            RANDOMIZE TEXTURE
-          </RandomizeButton>
-          <RandomizeButton
-            onClick={() => {
-              this.randomizeTexture();
-              this.randomizeWidths();
-              this.randomizeColors();
-            }}
-          >
-            RANDOMIZE
-          </RandomizeButton>
+          <FieldHeader style={{ alignItems: "center", marginTop: "16px" }}>
+            <div style={{ flexGrow: 1 }}>RANDOMIZE</div>
+            <RandomizeIcon
+              onClick={() => {
+                this.randomizeTexture();
+                this.randomizeWidths();
+                this.randomizeColors();
+              }}
+            />
+          </FieldHeader>
+          <LayoutRow style={{ alignItems: "center" }}>
+            <div style={{ flexGrow: 1 }}>Colors</div>
+            <RandomizeIcon onClick={this.randomizeColors} />
+          </LayoutRow>
+          <LayoutRow style={{ alignItems: "center" }}>
+            <div style={{ flexGrow: 1 }}>Widths</div>
+            <RandomizeIcon onClick={this.randomizeWidths} />
+          </LayoutRow>
+          <LayoutRow style={{ alignItems: "center" }}>
+            <div style={{ flexGrow: 1 }}>Texture</div>
+            <RandomizeIcon onClick={this.randomizeTexture} />
+          </LayoutRow>
           <DownloadContainer>
             <Download
               onClick={this.download}
