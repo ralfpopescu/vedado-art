@@ -124,6 +124,8 @@ class ArtController extends React.Component {
     this.handleTextureChange = this.handleTextureChange.bind(this);
     this.randomizeTexture = this.randomizeTexture.bind(this);
     this.randomizeWidths = this.randomizeWidths.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
+    this.changeColor = this.changeColor.bind(this);
     this.download = this.download.bind(this);
   }
 
@@ -200,12 +202,27 @@ class ArtController extends React.Component {
     }));
   }
 
+  changeColor(index, color) {
+    console.log(color);
+    this.setState(prevState => ({
+      stripes: prevState.stripes.map((stripe, i) => {
+        if (i === index) {
+          return { color, width: stripe.width };
+        }
+        return stripe;
+      })
+    }));
+  }
+
+  handleColorChange = index => event =>
+    console.log(event) || this.changeColor(index, event.target.value);
+
   randomizeTexture() {
     const randomInteger = (min, max) => {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     };
 
-    this.handleTextureChange(textures[randomInteger(1, textures.length)]);
+    this.handleTextureChange(textures[randomInteger(1, textures.length - 1)]);
   }
 
   download() {
@@ -339,13 +356,13 @@ class ArtController extends React.Component {
           style={{
             padding: "30px",
             overflowY: "auto",
-            background: "#e6e6e6",
+            background: "#f2f2f2",
             height: "100%"
           }}
         >
           <LayoutColumn>
             <FieldHeader>POSITION</FieldHeader>
-            <LayoutRow>
+            <LayoutRow style={{ marginBottom: "16px" }}>
               <LayoutColumn
                 style={{ alignItems: "center", marginRight: "16px" }}
               >
@@ -468,7 +485,11 @@ class ArtController extends React.Component {
           />
         </div>
         <LayoutColumn style={{ padding: "50px" }}>
-          <ColorPanel stripes={stripes} />
+          <ColorPanel
+            stripes={stripes}
+            handleColorChange={index => event =>
+              this.changeColor(index, event.target.value)}
+          />
         </LayoutColumn>
       </Container>
     );
