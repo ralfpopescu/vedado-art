@@ -15,22 +15,13 @@ const DirectionButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  fill: #666666;
+  fill: #636363;
   cursor: pointer;
   opacity: 1;
 
   &:hover {
     opacity: 0.7;
   }
-`;
-
-const RandomizeButton = styled.button`
-  color: #666666;
-  background-color: transparent;
-  width: 100px;
-  height: 50px;
-  border: 2px solid #666666;
-  font-family: Unica One;
 `;
 
 const DownloadContainer = styled.div`
@@ -52,6 +43,7 @@ const Container = styled.div`
   height: 1200px;
   background-color: #1b1b1b;
   color: white;
+  width: 100%;
 `;
 
 const LayoutRow = styled.div`
@@ -63,15 +55,32 @@ const LayoutColumn = styled.div`
   flex-direction: column;
 `;
 
-const Input = styled.input`
-  margin-bottom: 16px;
+const NakedInput = styled.input`
   font-family: Unica One;
-  border-radius: 2px;
-
-  &:focus {
-    outline: none;
-  }
+  outline: none;
+  width: 100%;
+  font-size: 1.2rem;
+  background: transparent;
+  border-top: transparent !important;
+  border-left: transparent !important;
+  border-right: transparent !important;
+  border-bottom: transparent !important;
+  font-size: 1.1rem;
+  color: white;
+  padding: 8px;
 `;
+
+const InputContainer = styled.div`
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background-color: #636363;
+`;
+
+const Input = ({ style, ...inputProps }) => (
+  <InputContainer style={style}>
+    <NakedInput {...inputProps} />
+  </InputContainer>
+);
 
 const FieldHeader = styled.div`
   font-size: 1.5rem;
@@ -95,6 +104,24 @@ const RandomIconWrapper = styled.div`
     opacity: 0.7;
   }
 `;
+
+const selectStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    color: "white",
+    background: "#636363"
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    color: "white",
+    background: "#636363"
+  }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: "white",
+    background: "#636363"
+  })
+};
 
 const RandomizeIcon = ({ onClick }) => (
   <RandomIconWrapper onClick={onClick}>↻</RandomIconWrapper>
@@ -396,9 +423,7 @@ class ArtController extends React.Component {
           style={{
             padding: "30px",
             overflowY: "auto",
-            background: "#323232",
-            height: "100%",
-            minWidth: "300px"
+            background: "#323232"
           }}
         >
           <LayoutColumn>
@@ -473,6 +498,7 @@ class ArtController extends React.Component {
             onChange={this.handleTextureChange}
             value={texture.value}
             placeholder="Select a texture"
+            styles={selectStyles}
           />
           <FieldHeader style={{ alignItems: "center", marginTop: "16px" }}>
             <div style={{ flexGrow: 1 }}>RANDOMIZE</div>
