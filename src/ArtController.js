@@ -126,6 +126,7 @@ class ArtController extends React.Component {
     this.randomizeWidths = this.randomizeWidths.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
     this.changeColor = this.changeColor.bind(this);
+    this.changeWidth = this.changeWidth.bind(this);
     this.download = this.download.bind(this);
   }
 
@@ -203,11 +204,21 @@ class ArtController extends React.Component {
   }
 
   changeColor(index, color) {
-    console.log(color);
     this.setState(prevState => ({
       stripes: prevState.stripes.map((stripe, i) => {
         if (i === index) {
           return { color, width: stripe.width };
+        }
+        return stripe;
+      })
+    }));
+  }
+
+  changeWidth(index, width) {
+    this.setState(prevState => ({
+      stripes: prevState.stripes.map((stripe, i) => {
+        if (i === index) {
+          return { color: stripe.color, width };
         }
         return stripe;
       })
@@ -489,6 +500,8 @@ class ArtController extends React.Component {
             stripes={stripes}
             handleColorChange={index => event =>
               this.changeColor(index, event.target.value)}
+            handleWidthChange={index => event =>
+              this.changeWidth(index, event.target.value)}
           />
         </LayoutColumn>
       </Container>

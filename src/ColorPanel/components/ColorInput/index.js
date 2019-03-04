@@ -17,11 +17,11 @@ const Color = styled.div`
   transition: all 0.3s ease-in-out;
 `;
 
-const ColorInput = ({ color, width, colorOnChange }) => (
+const ColorInput = ({ color, width, colorOnChange, widthOnChange }) => (
   <Container>
     <Color color={color} />
     <Input value={color} onChange={colorOnChange} />
-    <Input value={width} />
+    <Input value={width} onChange={widthOnChange} />
   </Container>
 );
 

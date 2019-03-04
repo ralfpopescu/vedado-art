@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const ColorPanel = ({ stripes, handleColorChange }) => (
+const ColorPanel = ({ stripes, handleColorChange, handleWidthChange }) => (
   <Container>
     {stripes.map(({ color, width }, index) => (
       <ColorInput
@@ -15,6 +15,7 @@ const ColorPanel = ({ stripes, handleColorChange }) => (
         width={width}
         style={{ marginBottom: "16px" }}
         colorOnChange={handleColorChange(index)}
+        widthOnChange={handleWidthChange(index)}
       />
     ))}
   </Container>
