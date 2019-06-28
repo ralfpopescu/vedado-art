@@ -159,8 +159,8 @@ class ArtController extends React.Component {
       trackNameLeft: 0,
       trackName: "",
       hue: "random",
-      artWidth: 500,
-      artHeight: 500,
+      artWidth: 1000,
+      artHeight: 1000,
       numberOfStripes: 15,
       numberOfDots: 0,
       centerLogo: false,
@@ -254,7 +254,7 @@ class ArtController extends React.Component {
     this.setState(prevState => ({
       stripes: prevState.stripes.map(stripe => ({
         color: stripe.color,
-        width: Math.round(Math.random() * 100)
+        width: Math.round(Math.random() * 200)
       }))
     }));
   }
@@ -494,7 +494,7 @@ class ArtController extends React.Component {
           />
           Texture
           <Select
-            options={textures}
+            options={[...textures, { value: "none", label: "---" }]}
             onChange={this.handleTextureChange}
             value={texture.value}
             placeholder="Select a texture"
