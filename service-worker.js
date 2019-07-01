@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/ralfpopescu/vedado-art/precache-manifest.04704cf66598548adf94ff42883c862b.js"
+  "/vedado-art/precache-manifest.34e34f7300a578055f38dd4e02484702.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/ralfpopescu/vedado-art/index.html", {
+workbox.routing.registerNavigationRoute("/vedado-art/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
