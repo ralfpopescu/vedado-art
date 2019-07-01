@@ -8,6 +8,8 @@ import Select from "react-select";
 import ColorPanel from "./ColorPanel";
 import { ReactComponent as Arrow } from "./icons/play-arrow.svg";
 import { ReactComponent as Download } from "./icons/download.svg";
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 
 const DirectionButton = styled.div`
   width: 25px;
@@ -159,8 +161,8 @@ class ArtController extends React.Component {
       trackNameLeft: 0,
       trackName: "",
       hue: "random",
-      artWidth: 1000,
-      artHeight: 1000,
+      artWidth: 500,
+      artHeight: 500,
       numberOfStripes: 15,
       numberOfDots: 0,
       centerLogo: false,
@@ -522,12 +524,6 @@ class ArtController extends React.Component {
             <div style={{ flexGrow: 1 }}>Texture</div>
             <RandomizeIcon onClick={this.randomizeTexture} />
           </LayoutRow>
-          <DownloadContainer>
-            <Download
-              onClick={this.download}
-              style={{ width: "50px", height: "50px" }}
-            />
-          </DownloadContainer>
         </LayoutColumn>
         <div
           style={{
@@ -554,6 +550,7 @@ class ArtController extends React.Component {
             ref={this.artRef}
           />
         </div>
+
         <LayoutColumn style={{ padding: "50px" }}>
           <ColorPanel
             stripes={stripes}
@@ -562,6 +559,24 @@ class ArtController extends React.Component {
             handleWidthChange={index => event =>
               this.changeWidth(index, event.target.value)}
           />
+          <button
+            onClick={() =>
+              html2canvas(this.artRef.current, {
+                allowTaint: true,
+                useCORS: true
+              }).then(canvas => {
+                console.log(this.artRef.current);
+                document.body.appendChild(canvas);
+                canvas.toBlob(blob => {
+                  console.log(blob);
+                  saveAs(blob, "vedado.png");
+                });
+              })
+            }
+            style={{ height: 30, marginTop: 10 }}
+          >
+            <Download style={{ width: 20, height: 20 }} />
+          </button>
         </LayoutColumn>
       </Container>
     );

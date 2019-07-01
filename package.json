@@ -5,6 +5,9 @@
   "dependencies": {
     "babel-loader": "^8.0.4",
     "dom-to-image": "^2.6.0",
+    "file-saver": "^2.0.2",
+    "hex-rgb": "^4.1.0",
+    "html2canvas": "^1.0.0-rc.3",
     "randomcolor": "^0.5.3",
     "react": "^16.8.0-alpha.1",
     "react-dom": "^16.8.0-alpha.1",

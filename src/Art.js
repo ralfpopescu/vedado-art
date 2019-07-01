@@ -1,15 +1,19 @@
 import React, { useRef, useCallback, useState } from "react";
 import styled from "styled-components";
-import photo from "./static/jankEdit.png";
 import { useDropzone } from "react-dropzone";
+import html2canvas from "html2canvas";
+import hexRgb from "hex-rgb";
 
 const Stripe = styled.div`
   width: ${props => props.width}px;
-  background-color: ${props => props.color};
+  background-color: ${props => {
+    const colors = hexRgb(props.color, { format: "array" });
+    console.log(`rgba(${colors[0]},${colors[1]},${colors[2]}, 0.2)`);
+    return `rgba(${colors[0]},${colors[1]},${colors[2]}, 0.2)`;
+  }};
   display: flex;
   flex-grow: 1;
   transition: all 0.3s ease-in-out;
-  opacity: 0.2;
 `;
 
 const FullContainer = styled.div`
@@ -134,65 +138,68 @@ const Art = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <FullContainer
-      width={artWidth}
-      height={artHeight}
-      {...getRootProps()}
-      isDragActive={isDragActive}
-    >
-      {console.log(file)}
-      <input {...getInputProps()} style={{ display: "none" }} />
-      <ImageContainer>
-        <img src={file} style={{ width: "100%", height: "100%" }} />
-      </ImageContainer>
-      <StripeContainer ref={forwardedRef}>
-        {stripes.map(({ color, width }) => (
-          <Stripe color={color} width={width} />
-        ))}
-        {dotColors.map(color => (
-          <Dot
-            color={color}
-            size={Math.random() * 25}
-            top={Math.random() * artHeight}
-            left={Math.random() * artWidth}
+    <div ref={forwardedRef}>
+      <FullContainer
+        width={artWidth}
+        height={artHeight}
+        {...getRootProps()}
+        isDragActive={isDragActive}
+      >
+        {console.log(file)}
+        <input {...getInputProps()} style={{ display: "none" }} />
+        <ImageContainer>
+          <img src={file} style={{ width: "100%", height: "100%" }} />
+        </ImageContainer>
+        <StripeContainer>
+          {stripes.map(({ color, width }) => (
+            <Stripe color={color} width={width} />
+          ))}
+          {dotColors.map(color => (
+            <Dot
+              color={color}
+              size={Math.random() * 25}
+              top={Math.random() * artHeight}
+              left={Math.random() * artWidth}
+            />
+          ))}
+          <Texture texture={texture.value} />
+          <Gradient />
+          <LogoContainer
+            top={
+              centerLogo
+                ? artHeight / 2 -
+                  logoRef.current.getBoundingClientRect().height * 0.75
+                : logoTop
+            }
+            left={
+              centerLogo
+                ? artWidth / 2 -
+                  logoRef.current.getBoundingClientRect().width / 2
+                : logoLeft
+            }
+            ref={logoRef}
           />
-        ))}
-        <Texture texture={texture.value} />
-        <Gradient />
-        <LogoContainer
-          top={
-            centerLogo
-              ? artHeight / 2 -
-                logoRef.current.getBoundingClientRect().height * 0.75
-              : logoTop
-          }
-          left={
-            centerLogo
-              ? artWidth / 2 - logoRef.current.getBoundingClientRect().width / 2
-              : logoLeft
-          }
-          ref={logoRef}
-        />
-        <TrackNameContainer
-          top={
-            centerTrackname
-              ? artHeight / 2 -
-                trackNameRef.current.getBoundingClientRect().height * 0.75 +
-                60
-              : trackNameTop
-          }
-          left={
-            centerTrackname
-              ? artWidth / 2 -
-                trackNameRef.current.getBoundingClientRect().width / 2
-              : trackNameLeft
-          }
-          ref={trackNameRef}
-        >
-          {trackName}
-        </TrackNameContainer>
-      </StripeContainer>
-    </FullContainer>
+          <TrackNameContainer
+            top={
+              centerTrackname
+                ? artHeight / 2 -
+                  trackNameRef.current.getBoundingClientRect().height * 0.75 +
+                  60
+                : trackNameTop
+            }
+            left={
+              centerTrackname
+                ? artWidth / 2 -
+                  trackNameRef.current.getBoundingClientRect().width / 2
+                : trackNameLeft
+            }
+            ref={trackNameRef}
+          >
+            {trackName}
+          </TrackNameContainer>
+        </StripeContainer>
+      </FullContainer>
+    </div>
   );
 };
 
