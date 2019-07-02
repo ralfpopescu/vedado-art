@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/vedado-art/precache-manifest.34e34f7300a578055f38dd4e02484702.js"
+  "/vedado-art/precache-manifest.497161365192a39d5f14b909f9f494b5.js"
 );
 
 workbox.clientsClaim();
