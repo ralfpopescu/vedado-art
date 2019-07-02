@@ -170,7 +170,8 @@ class ArtController extends React.Component {
       stripeColors: generateColors(15, "random"),
       dotColors: generateColors(0, "random"),
       stripes: generateStripes(15, "random"),
-      texture: "none"
+      texture: "none",
+      opacity: 0.2
     };
     this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
     this.handleHueChange = this.handleHueChange.bind(this);
@@ -229,6 +230,10 @@ class ArtController extends React.Component {
       dotColors: generateColors(event.target.value, this.state.hue)
     });
   }
+
+  handleOpacityChange = event => {
+    this.setState({ opacity: event.target.value });
+  };
 
   handleTextureChange(value) {
     this.setState({ texture: value });
@@ -416,6 +421,7 @@ class ArtController extends React.Component {
       stripeColors,
       stripes,
       dotColors,
+      opacity,
       texture
     } = this.state;
     const { ButtonGroup } = this;
@@ -487,6 +493,12 @@ class ArtController extends React.Component {
             value={this.state.numberOfDots}
             onChange={this.handleDotNumberChange}
           />
+          Opacity
+          <Input
+            type="text"
+            value={this.state.opacity}
+            onChange={this.handleOpacityChange}
+          />
           <FieldHeader>APPEARANCE</FieldHeader>
           Hue
           <Input
@@ -547,6 +559,7 @@ class ArtController extends React.Component {
             centerLogo={centerLogo}
             centerTrackname={centerTrackname}
             stripes={stripes}
+            opacity={opacity}
             ref={this.artRef}
           />
         </div>

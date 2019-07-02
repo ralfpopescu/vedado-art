@@ -2,10 +2,12 @@
   "name": "vedado-art",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ralfpopescu.github.io/vedado-art/",
   "dependencies": {
     "babel-loader": "^8.0.4",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.2",
+    "gh-pages": "^2.0.1",
     "hex-rgb": "^4.1.0",
     "html2canvas": "^1.0.0-rc.3",
     "randomcolor": "^0.5.3",
@@ -27,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

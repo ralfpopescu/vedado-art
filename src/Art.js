@@ -8,8 +8,7 @@ const Stripe = styled.div`
   width: ${props => props.width}px;
   background-color: ${props => {
     const colors = hexRgb(props.color, { format: "array" });
-    console.log(`rgba(${colors[0]},${colors[1]},${colors[2]}, 0.2)`);
-    return `rgba(${colors[0]},${colors[1]},${colors[2]}, 0.2)`;
+    return `rgba(${colors[0]},${colors[1]},${colors[2]}, ${props.opacity})`;
   }};
   display: flex;
   flex-grow: 1;
@@ -125,6 +124,7 @@ const Art = ({
   dotColors,
   texture,
   stripes,
+  opacity,
   id,
   forwardedRef
 }) => {
@@ -152,7 +152,7 @@ const Art = ({
         </ImageContainer>
         <StripeContainer>
           {stripes.map(({ color, width }) => (
-            <Stripe color={color} width={width} />
+            <Stripe color={color} width={width} opacity={opacity} />
           ))}
           {dotColors.map(color => (
             <Dot
