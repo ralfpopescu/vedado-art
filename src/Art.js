@@ -47,7 +47,10 @@ const StripeContainer = styled.div`
 const Dot = styled.div`
   height: ${props => props.size}px;
   width: ${props => props.size}px;
-  background-color: ${props => props.color};
+  background-color: ${props => {
+    const colors = hexRgb(props.color, { format: "array" });
+    return `rgba(${colors[0]},${colors[1]},${colors[2]}, ${props.opacity})`;
+  }};
   top: ${props => props.top}px;
   left: ${props => props.left}px;
   border-radius: 50%;
@@ -157,6 +160,7 @@ const Art = ({
           {dotColors.map(color => (
             <Dot
               color={color}
+              opacity={opacity}
               size={Math.random() * 25}
               top={Math.random() * artHeight}
               left={Math.random() * artWidth}
